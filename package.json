@@ -1,0 +1,28 @@
+{
+  "name": "wearvbo-backend",
+  "version": "1.0.0",
+  "description": "E-commerce Backend Application",
+  "homepage": "https://github.com/WearVBO/wear-vbo-backend#readme",
+  "bugs": {
+    "url": "https://github.com/WearVBO/wear-vbo-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WearVBO/wear-vbo-backend.git"
+  },
+  "license": "ISC",
+  "author": "odinaka-dev",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.1",
+    "nodemon": "^3.1.10"
+  }
+}

@@ -7,6 +7,9 @@ exports.RegisterUser = async (req, res) => {
   try {
     const { FirstName, LastName, PhoneNumber, email, Password } = req.body;
 
+    const saltRounds = process.env.SALT_ROUNDS;
+    const hashedPassword = await bcrypt.hash(Password, saltRounds);
+
     // Check If details are present
     if (!FirstName || !LastName || !PhoneNumber || !email || !Password) {
       return res
@@ -19,7 +22,7 @@ exports.RegisterUser = async (req, res) => {
       LastName,
       PhoneNumber,
       email,
-      Password,
+      Password: hashedPassword,
     });
 
     res.status(201).json({

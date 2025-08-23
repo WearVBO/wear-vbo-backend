@@ -13,10 +13,10 @@ async function sendMail({ to, subject, text, html }) {
 
     const info = await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: "lakaka@gmail.com",
-      subject: "Hello world",
-      text: "Hello world",
-      html: "<b>Hello world</b>",
+      to,
+      subject,
+      text,
+      html,
     });
 
     console.log("Email sent:", info.messageId);

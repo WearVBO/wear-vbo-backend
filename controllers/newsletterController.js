@@ -1,22 +1,22 @@
 const newsletterModel = require("../models/newsletter");
 const sendMail = require("../utils/sendMail");
 
-// test mail function
-async function testMail(email, fullname) {
-  const result = await sendMail({
-    to: `${email}`,
-    subject: "Welcome to wearVBO",
-    text: `hello ${fullname}, welcome to wearVBO.`,
-    html: `<p>hello ${fullname}.</p>`,
-  });
+// // test mail function
+// async function testMail(email) {
+//   const result = await sendMail({
+//     to: email,
+//     subject: "wearVBO Newsletter",
+//     text: `hello, welcome to wearVBO.`,
+//     html: `<p>hello</p>`,
+//   });
 
-  console.log(result); // TODO: To remove later
-}
+//   console.log(result); // TODO: To remove later
+// }
 
 // newsletter controller
 exports.SendNewsLetter = async (req, res) => {
   try {
-    const { fullname, email } = req.body;
+    const { email } = req.body;
 
     const existing = await newsletterModel.findOne({ email });
     if (existing && existing.subscribed) {
@@ -27,16 +27,20 @@ exports.SendNewsLetter = async (req, res) => {
 
     const subscriber = await newsletterModel.findOneAndUpdate(
       { email },
-      { email, fullname, subscribed: true },
+      { email, subscribed: true },
       { upsert: true, new: true }
     );
 
-    // check of the response was successful and initiate a mail sent
-    await testMail(subscriber.email, subscriber.fullname);
+    await sendMail({
+      to: subscriber.email,
+      subject: "wearVBO Newsletter",
+      text: `Hello ${subscriber.email}, welcome to wearVBO.`,
+      html: `<p>Hello ${subscriber.email}.</p>`,
+    });
 
     res.status(201).json({
       success: true,
-      message: `Thank you ${fullname} for subscribing to wearVBO newsletter`,
+      message: `Thank you for subscribing to wearVBO newsletter`,
       subscriber,
     });
   } catch (error) {

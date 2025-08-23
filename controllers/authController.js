@@ -1,32 +1,40 @@
 const UserModel = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const sendMail = require("../utils/sendMail");
 
 // signup authentication
 exports.RegisterUser = async (req, res) => {
   try {
-    const { FirstName, LastName, PhoneNumber, email, Password } = req.body;
+    const { firstName, lastName, phoneNumber, password, email } = req.body;
 
-    const saltRounds = process.env.SALT_ROUNDS;
-    const hashedPassword = await bcrypt.hash(Password, saltRounds);
+    const saltRounds = 10;
+    const hashedpassword = await bcrypt.hash(password, saltRounds);
 
     // Check If details are present
-    if (!FirstName || !LastName || !PhoneNumber || !email || !Password) {
+    if (!firstName || !lastName || !phoneNumber || !email || !password) {
       return res
-        .send(400)
+        .status(400)
         .json({ error: "Some fields are missing, Please input them again" });
     }
 
     const user = await UserModel.create({
-      FirstName,
-      LastName,
-      PhoneNumber,
+      firstName,
+      lastName,
+      phoneNumber,
       email,
-      Password: hashedPassword,
+      password: hashedpassword,
     });
 
-    res.status(201).json({
-      message: `Your account has been created successfully, welcome ${FirstName} ${LastName}`,
+    await sendMail({
+      to: user.email,
+      subject: "Welcome wearVBO",
+      text: `Hello ${user.firstName}, welcome to wearVBO.`,
+      html: `<p>Hello ${user.lastName}.</p>`,
+    });
+
+    res.status(200).json({
+      message: `Your account has been created successfully, welcome ${firstName} ${lastName}`,
       id: user._id,
     });
   } catch (error) {
@@ -41,9 +49,9 @@ exports.RegisterUser = async (req, res) => {
 // login authentication
 exports.LoginUser = async (req, res) => {
   try {
-    const { email, Password } = req.body;
+    const { email, password } = req.body;
 
-    const SingleUser = await UserModel.findById({ email, Password });
+    const SingleUser = await UserModel.findById({ email, password });
     // check if an account has been created.
     if (!SingleUser) {
       return res
@@ -52,7 +60,7 @@ exports.LoginUser = async (req, res) => {
     }
 
     // check if password matches
-    const isMatch = bcrypt.compare(Password, user.Password);
+    const isMatch = bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({
         error: "Invalid credentials, no successful matches for this account",

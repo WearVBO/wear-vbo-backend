@@ -26,6 +26,7 @@ exports.RegisterUser = async (req, res) => {
       password: hashedpassword,
     });
 
+    // send email upon successful registration
     await sendMail({
       to: user.email,
       subject: "Welcome wearVBO",
@@ -51,7 +52,7 @@ exports.LoginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const SingleUser = await UserModel.findById({ email, password });
+    const SingleUser = await UserModel.findOne({ email });
     // check if an account has been created.
     if (!SingleUser) {
       return res
@@ -60,7 +61,7 @@ exports.LoginUser = async (req, res) => {
     }
 
     // check if password matches
-    const isMatch = bcrypt.compare(password, user.password);
+    const isMatch = bcrypt.compare(password, SingleUser.password);
     if (!isMatch) {
       return res.status(400).json({
         error: "Invalid credentials, no successful matches for this account",

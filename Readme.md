@@ -39,7 +39,7 @@ This project is a **backend API for an wearVBO e-commerce platform**, built to h
 {
   "first_name": "Bright",
   "last_name": "Osasere",
-  "phoneNumber: "+234667788990",
+  "phoneNumber": "+234667788990",
   "email": "bright@example.com",
   "password": "SecurePass123"
 }

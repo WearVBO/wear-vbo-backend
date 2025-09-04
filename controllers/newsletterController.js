@@ -1,4 +1,4 @@
-const newsletterModel = require("../models/newsletter");
+const newsletterModel = require("../models/newsletterProfile");
 const sendMail = require("../utils/sendMail");
 
 // newsletter controller

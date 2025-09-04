@@ -1,18 +1,6 @@
 const newsletterModel = require("../models/newsletter");
 const sendMail = require("../utils/sendMail");
 
-// // test mail function
-// async function testMail(email) {
-//   const result = await sendMail({
-//     to: email,
-//     subject: "wearVBO Newsletter",
-//     text: `hello, welcome to wearVBO.`,
-//     html: `<p>hello</p>`,
-//   });
-
-//   console.log(result); // TODO: To remove later
-// }
-
 // newsletter controller
 exports.SendNewsLetter = async (req, res) => {
   try {

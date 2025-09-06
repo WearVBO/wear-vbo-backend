@@ -42,7 +42,7 @@ const sendMail = require("../utils/sendMail");
 // newsletter controller
 exports.SendNewsLetter = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email, subscribed = true } = req.body;
 
     if (!email) {
       return res
@@ -50,7 +50,7 @@ exports.SendNewsLetter = async (req, res) => {
         .json({ success: false, message: "Email is required" });
     }
 
-    const existing = await newsletterModel.findOne({ email });
+    const existing = await newsletterModel.findOneAndUpdate({ email });
     if (existing && existing.subscribed) {
       return res.status(400).json({
         success: false,

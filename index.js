@@ -13,7 +13,7 @@ app.use(cors());
 connectDB();
 
 // allowed origins
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = ["http://localhost:3000"];
 
 app.use(
   cors({

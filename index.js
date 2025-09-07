@@ -12,11 +12,8 @@ const app = express();
 app.use(cors());
 connectDB();
 
-// allowed origins
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://wear-vbo.vercel.app/",
-];
+// TODO: always include allowed origins for frontends
+const allowedOrigins = ["http://localhost:3000", "https://wear-vbo.vercel.app"];
 
 app.use(
   cors({

@@ -13,7 +13,11 @@ app.use(cors());
 connectDB();
 
 // TODO: always include allowed origins for frontend
-const allowedOrigins = ["http://localhost:3000", "https://wear-vbo.vercel.app"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://wear-vbo.vercel.app",
+  "https://www.wearvbo.com",
+];
 
 app.use(
   cors({

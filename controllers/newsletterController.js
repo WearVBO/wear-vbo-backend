@@ -1,41 +1,3 @@
-// const newsletterModel = require("../models/newsletterProfile");
-// const sendMail = require("../utils/sendMail");
-
-// // newsletter controller
-// exports.SendNewsLetter = async (req, res) => {
-//   try {
-//     const { email, subscribed = true } = req.body;
-
-//     const existing = await newsletterModel.findOne({ email });
-//     if (existing && existing.subscribed) {
-//       return res
-//         .status(400)
-//         .json({ success: false, message: "Already subscribed" });
-//     }
-
-//     const subscriber = await newsletterModel.findOneAndUpdate(
-//       { email },
-//       { email, subscribed },
-//       { upsert: true, new: true }
-//     );
-
-//     await sendMail({
-//       to: subscriber.email,
-//       subject: "wearVBO Newsletter",
-//       text: `Hello ${subscriber.email}, welcome to wearVBO.`,
-//       html: `<p>Hello ${subscriber.email}.</p>`,
-//     });
-
-//     res.status(201).json({
-//       success: true,
-//       message: `Thank you for subscribing to wearVBO newsletter`,
-//       subscriber,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: "Failed to subscribe" });
-//   }
-// };
-
 const newsletterModel = require("../models/newsletterProfile");
 const sendMail = require("../utils/sendMail");
 const mailchimp = require("../config/mailchimp");
@@ -82,7 +44,7 @@ exports.SendNewsLetter = async (req, res) => {
 
     // Mailchimp integration (handles both new and existing members)
     try {
-      const mailchimpListId = process.env.MAILCHIMP_LIST_ID;
+      const mailchimpListId = process.env.MAILCHIMP_AUDIENCE_ID;
       const subscriberHash = require("crypto")
         .createHash("md5")
         .update(email.toLowerCase())

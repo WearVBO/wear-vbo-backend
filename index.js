@@ -17,6 +17,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://wear-vbo.vercel.app",
   "https://www.wearvbo.com",
+  "https://www.wearvbo.com/",
 ];
 
 app.use(
